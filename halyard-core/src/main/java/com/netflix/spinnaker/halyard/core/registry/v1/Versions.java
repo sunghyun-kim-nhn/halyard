@@ -28,6 +28,8 @@ import org.apache.commons.lang3.StringUtils;
 public class Versions {
   public static final String BRANCH_PREFIX = "branch:";
   public static final String LOCAL_PREFIX = "local:";
+  public static final String NHN_PREFIX = "nhn-spinnaker-";
+
 
   @Data
   public static class Version {
@@ -111,6 +113,14 @@ public class Versions {
     return version.substring(LOCAL_PREFIX.length());
   }
 
+  public static boolean isNhn(String version) {
+    return version.startsWith(NHN_PREFIX);
+  }
+
+  public static String removeCommitId(String version) {
+    int lastDash = version.lastIndexOf("-");
+    return lastDash > 0 ? version.substring(0, lastDash) : version;
+  }
   @Data
   // A version explicitly not supported by Halyard
   public static class IllegalVersion {

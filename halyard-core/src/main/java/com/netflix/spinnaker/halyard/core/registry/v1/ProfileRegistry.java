@@ -36,6 +36,8 @@ public class ProfileRegistry {
 
   @Autowired LocalDiskProfileReader localDiskProfileReader;
 
+  @Autowired NhnProfileReader nhnProfileReader;
+
   @Autowired ObjectMapper relaxedObjectMapper;
 
   public InputStream readProfile(String artifactName, String version, String profileName)
@@ -62,7 +64,9 @@ public class ProfileRegistry {
   }
 
   private ProfileReader pickProfileReader(String version) {
-    if (Versions.isBranch(version)) {
+    if (Versions.isNhn(version)) {
+      return nhnProfileReader;
+    } else if (Versions.isBranch(version)) {
       return gitProfileReader;
     } else if (Versions.isLocal(version)) {
       return localDiskProfileReader;
